@@ -1,6 +1,6 @@
 # AWS Mission Resilience Lens
 
-Description
+## Description
 The AWS Mission Resilience Lens (MRL) is a targeted evaluation framework for defense and national security workloads. This lens includes best practices based on our experience reviewing these architectures, and includes additional content from both the AWS Operational Readiness Review program and the AWS Well-Architected Framework's Reliability pillar. AWS recommends supplementing this work with a full Well-Architected review when time permits. Reviews should be conducted at least annually or after significant architectural changes.
 
 Created as a custom lens for the WAFR tool:
