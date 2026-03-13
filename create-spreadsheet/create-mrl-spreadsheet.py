@@ -1,18 +1,19 @@
+
 import json
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 
-# ── **Prompt user for JSON filename** ──────────────────────────────────────────
-**json_filename = input("Enter the MRL JSON filename (e.g., mrl-v0.5.json): ").strip()**
+# ── Prompt user for JSON filename ──────────────────────────────────────────
+json_filename = input("Enter the MRL JSON filename (e.g., mrl-v0.5.json): ").strip()
 
 # ── Load JSON ──────────────────────────────────────────────────────────────────
-**with open(json_filename, encoding="utf-8") as f:**
+with open(json_filename, encoding="utf-8") as f:
     data = json.load(f)
 
 wb = Workbook()
 ws = wb.active
-ws.title = "MRL Spreadsheet"
+ws.title = "MRL Assessment"
 
 # ── Color palette ──────────────────────────────────────────────────────────────
 COLOR_HEADER_BG = "2E75B6"
@@ -222,7 +223,7 @@ for text, bold, size in instructions:
     ws_inst.row_dimensions[ws_inst.max_row].height = 20 if text else 8
 
 # ── Save ───────────────────────────────────────────────────────────────────────
-output_path = "MRL_Spreadsheet.xlsx"
+output_path = "MRL_Assessment.xlsx"
 wb.save(output_path)
-**print(f"Done! Processed '{json_filename}' and saved to: {output_path}")**
+print(f"Done! Processed '{json_filename}' and saved to: {output_path}")
 
