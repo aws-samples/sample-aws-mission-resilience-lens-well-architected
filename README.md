@@ -37,7 +37,7 @@ We recommend preparing the following items before the review:
 The create-spreadsheet folder contains a python script that will export the content from .json to .xlsx.
 1.  From /create-spreadsheet folder: pip install -r requirements.txt
 2.  python3 create-mrl-spreadsheet.py
-3.  Enter the path to the .json file, for example: ../mrl-05.json
+3.  When prompted, specify the path to the .json file, for example: **../mrl-05.json**
 4.  The script will return: Done! Processed '../mrl-v0.5.json' and saved to: MRL_Assessment.xlsx
 
 ## Contributing
