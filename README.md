@@ -33,6 +33,12 @@ We recommend preparing the following items before the review:
 * Provide a list of external resources (or systems) that the workload depends on.
 * Operational category of the workload (for example: Mission Critical (MAC-I), Mission Essential (MAC-II), Mission Support (MAC-III)).
 
+## Creating an MRL Spreadsheet for offline use:
+The create-spreadsheet folder contains a python script that will export the content from .json to .xlsx.
+1.  From /create-spreadsheet folder: pip install -r requirements.txt
+2.  python3 create-spreadsheet.py
+3.  Enter the path to the .json file, for example: ../mrl-05.json 
+
 ## Contributing
 Please submit issues for any errors/corrections/contributions
 
