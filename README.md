@@ -33,15 +33,45 @@ We recommend preparing the following items before the review:
 * Provide a list of external resources (or systems) that the workload depends on.
 * Operational category of the workload (for example: Mission Critical (MAC-I), Mission Essential (MAC-II), Mission Support (MAC-III)).
 
-## Creating an MRL Spreadsheet for offline use:
-The create-spreadsheet folder contains a python script that will export the content from .json to .xlsx.
-1.  From /create-spreadsheet folder: pip install -r requirements.txt
-2.  python3 create-mrl-spreadsheet.py
-3.  When prompted, specify the path to the .json file, for example: **../mrl-05.json**
-4.  The script will return: Done! Processed '../mrl-v0.5.json' and saved to: MRL_Assessment.xlsx
-
 ## Contributing
 Please submit issues for any errors/corrections/contributions
 
-## License
+## Answering Questions
+
+Questions in this lens follow different selection patterns. Understanding these patterns helps ensure accurate responses during a review.
+
+### Multi-select best practices
+Most questions present a list of best practices where you should check all that apply. For example, "How do you back up data?" lists several backup practices — select every one your workload follows.
+
+### Mutually exclusive choices
+Some questions describe different states of the same thing, where only one option applies. For example, "Is each component of your workload deployed to multiple locations?" presents deployment patterns (multi-region, multi-AZ, single AZ) — select the one that best describes your current architecture.
+
+### Grouped choices
+Some questions contain logical groups where you would typically pick one from each group. For example, "What level of AWS Support do you have?" asks about both your AWS support tier (Enterprise, Business, or Developer) and your non-AWS dependency coverage (full, partial, or none). Select one from each group that matches your current state.
+
+### Anti-pattern and state-based choices
+Some questions include choices that describe anti-patterns or less-than-ideal states alongside best practices. These are included to capture your workload's current state accurately, not as goals to achieve. For example, "Developer Support" or "Single AZ only" are options you would select if they describe your current situation. The improvement plan report uses tags to help distinguish these from best practices (see Understanding Improvement Plans below).
+
+## Understanding Improvement Plans
+
+When you complete a review using this lens, the report generates improvement plans for any choices that were not selected. Each improvement plan includes guidance relevant to that specific choice. To help readers quickly understand the context of each improvement plan, we use three tags:
+
+### [Anti-pattern]
+These flag practices that should be actively avoided. If you see an anti-pattern improvement plan on your report and you are not doing the thing it describes, no action is needed — the plan is confirming that you are already avoiding a risky practice. Example:
+
+> [Anti-pattern: Single AZ only] Single-AZ deployments present significant availability risks with no resilience against zone failures. Deploy across at least two Availability Zones to establish baseline resilience.
+
+### [Partial implementation]
+These indicate practices that represent an incomplete or intermediate maturity level. They are not necessarily bad, but they fall short of the best practice. If you see one on your report, it may describe a stage you have already moved past. Example:
+
+> [Partial implementation: Defined roles, partial] Defined reliability roles require complete implementation and clear accountability measures to be fully effective. Progress toward a comprehensive program to ensure consistent management of resilience risks.
+
+### [Awareness gap]
+These highlight areas where visibility or understanding is lacking. They typically relate to choices where a review, evaluation, or assessment has not been performed. Example:
+
+> [Awareness gap: SLAs not reviewed] Unreviewed dependency SLAs represent unknown risks to mission readiness. Conduct a comprehensive review of all dependency SLAs and assess their impact on overall workload availability.
+
+### Improvement plans without tags
+Choices that represent best practices do not carry a tag. When these appear on your report as unchecked, the improvement plan provides direct guidance on how to adopt that best practice.
+
 This library is licensed under the MIT-0 License. See the LICENSE file.
