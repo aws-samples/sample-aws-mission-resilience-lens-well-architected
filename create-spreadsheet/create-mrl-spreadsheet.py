@@ -1,13 +1,19 @@
 
 import json
+import re
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 
-# ── Prompt user for JSON filename ──────────────────────────────────────────
-json_filename = input("Enter the MRL JSON filename (e.g., mrl-v0.5.json): ").strip()
+# ── Prompt user for JSON filename ──────────────────────────────────────────────────────────
+json_filename = input(
+    "Enter the MRL JSON filename (e.g., mrl-v0.5.json): ").strip()
 
-# ── Load JSON ──────────────────────────────────────────────────────────────────
+# Extract version from filename
+version_match = re.search(r'v(\d+\.\d+)', json_filename)
+version = version_match.group(1) if version_match else "unknown"
+
+# ── Load JSON ───────────────────────────────────────────────────────────────────────────────
 with open(json_filename, encoding="utf-8") as f:
     data = json.load(f)
 
@@ -15,7 +21,7 @@ wb = Workbook()
 ws = wb.active
 ws.title = "MRL Assessment"
 
-# ── Color palette ──────────────────────────────────────────────────────────────
+# ── Color palette ───────────────────────────────────────────────────────────────────────────
 COLOR_HEADER_BG = "2E75B6"
 COLOR_HEADER_FG = "FFFFFF"
 COLOR_PILLAR_BG = "1F4E79"
@@ -44,7 +50,7 @@ def style_cell(cell, bold=False, fg="000000", bg=None, wrap=True,
         wrap_text=wrap, horizontal=align, vertical=valign)
     cell.border = border
 
-# ── Column definitions ─────────────────────────────────────────────────────────
+# ── Column definitions ──────────────────────────────────────────────────────────────────────
 # A  Pillar
 # B  Q#
 # C  Question
@@ -66,7 +72,7 @@ headers = [
 
 col_widths = [28, 6, 52, 42, 52, 22, 36]
 
-# ── Write column header row ────────────────────────────────────────────────────
+# ── Write column header row ─────────────────────────────────────────────────────────────────
 ws.append(headers)
 for col_idx, (header, width) in enumerate(zip(headers, col_widths), start=1):
     cell = ws.cell(row=1, column=col_idx)
@@ -77,7 +83,7 @@ for col_idx, (header, width) in enumerate(zip(headers, col_widths), start=1):
 ws.row_dimensions[1].height = 30
 ws.freeze_panes = "A2"
 
-# ── Write data ─────────────────────────────────────────────────────────────────
+# ── Write data ──────────────────────────────────────────────────────────────────────────────
 current_row = 2
 q_global = 0
 
@@ -188,7 +194,7 @@ for pillar in data.get("pillars", []):
         ws.row_dimensions[current_row].height = 6
         current_row += 1
 
-# ── Instructions tab ───────────────────────────────────────────────────────────
+# ── Instructions tab ────────────────────────────────────────────────────────────────────────
 ws_inst = wb.create_sheet("Instructions")
 instructions = [
     ("AWS Mission Resilience Lens - Customer Self-Assessment", True, 14),
@@ -222,8 +228,7 @@ for text, bold, size in instructions:
     cell.alignment = Alignment(wrap_text=True)
     ws_inst.row_dimensions[ws_inst.max_row].height = 20 if text else 8
 
-# ── Save ───────────────────────────────────────────────────────────────────────
-output_path = "MRL_Assessment.xlsx"
+# ── Save ────────────────────────────────────────────────────────────────────────────────────
+output_path = f"MRL_Assessment_v{version}.xlsx"
 wb.save(output_path)
 print(f"Done! Processed '{json_filename}' and saved to: {output_path}")
-
